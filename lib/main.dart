@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maps_app/providers/places.dart';
 import 'package:maps_app/screens/add_place.dart';
+import 'package:maps_app/screens/place_detail.dart';
 import 'package:maps_app/screens/place_list.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,10 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.red,
           ),
           home: const PlaceListScreen(),
-          routes: {AddPlaceScreen.routeName: (_) => const AddPlaceScreen()}),
+          routes: {
+            AddPlaceScreen.routeName: (_) => const AddPlaceScreen(),
+            PlaceDetailScreen.routeName: (_) => const PlaceDetailScreen()
+          }),
     );
   }
 }

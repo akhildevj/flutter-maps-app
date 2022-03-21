@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 class DBHelper {
   static Future<Database> database() async {
     const String createQuery =
-        'CREATE TABLE places (id TEXT PRIMARY KEY, title TEXT, image TEXT);';
+        'CREATE TABLE places (id TEXT PRIMARY KEY, title TEXT, image TEXT, latitude REAL, longitude REAL, address TEXT);';
 
     final dbPath = await getDatabasesPath();
     return openDatabase(join(dbPath, 'places.db'),

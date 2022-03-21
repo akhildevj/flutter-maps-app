@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:maps_app/providers/places.dart';
 import 'package:maps_app/screens/add_place.dart';
+import 'package:maps_app/screens/place_detail.dart';
 import 'package:provider/provider.dart';
 
 class PlaceListScreen extends StatelessWidget {
@@ -21,24 +21,30 @@ class PlaceListScreen extends StatelessWidget {
       body: FutureBuilder(
         future:
             Provider.of<PlacesProvider>(context, listen: false).fetchPlaces(),
-        builder: (_, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? const Center(child: CircularProgressIndicator())
-                : Consumer<PlacesProvider>(
-                    builder: (context, value, child) => value.items.isEmpty
-                        ? child as Widget
-                        : ListView.builder(
-                            itemCount: value.items.length,
-                            itemBuilder: (_, index) => ListTile(
-                              leading: CircleAvatar(
-                                  backgroundImage: FileImage(
-                                      File(value.items[index].image.path))),
-                              title: Text(value.items[index].title),
-                              onTap: () {},
-                            ),
-                          ),
-                    child: const Center(child: Text('No places yet!')),
-                  ),
+        builder: (_, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? const Center(child: CircularProgressIndicator())
+            : Consumer<PlacesProvider>(
+                builder: (context, value, child) => value.items.isEmpty
+                    ? child as Widget
+                    : ListView.builder(
+                        itemCount: value.items.length,
+                        itemBuilder: (_, index) => ListTile(
+                          leading: CircleAvatar(
+                              backgroundImage: FileImage(
+                                  File(value.items[index].image.path))),
+                          title: Text(value.items[index].title),
+                          subtitle: Text(
+                              value.items[index].location.address as String),
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                                PlaceDetailScreen.routeName,
+                                arguments: value.items[index].id);
+                          },
+                        ),
+                      ),
+                child: const Center(child: Text('No places yet!')),
+              ),
       ),
     );
   }
